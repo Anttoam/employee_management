@@ -7,7 +7,9 @@ export class BaseField {
   ) {}
 }
 
-export class charField extends BaseField {}
+export class charField extends BaseField {
+  type: string = 'text'
+}
 
 export class emailField extends BaseField {
   type: string = 'email';
