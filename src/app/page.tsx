@@ -1,10 +1,6 @@
 'use client'
-import { CharField, EmailField, PasswordField } from "@/components/Fields";
-import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
+import GeneticForms from "@/components/Form";
 import { charField, emailField, passwordField } from "@/lib/formField";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -25,43 +21,23 @@ const formSchema = z.object({
 
 
 export default function Home() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema), 
-    defaultValues: {
-      last_name: '', 
-      first_name: '', 
-      last_name_kana: '', 
-      first_name_kana: '', 
-      login_id: '', 
-      email: '', 
-      password: '', 
-    }
-  })
+  const fields = [
+    new charField("last_name", "姓", "姓を入力してください", true), 
+    new charField("first_name", "名", "名を入力してください", true), 
+    new charField("last_name_kana", "セイ", "セイを入力してください", false), 
+    new charField("first_name_kana", "メイ", "メイを入力してください", false), 
+    new charField("login_id", "ログインID", "ログインIDを入力してください", true), 
+    new emailField("email", "メールアドレス", "メールアドレスを入力してください", true), 
+    new passwordField("password", "パスワード", "パスワードを入力してください", true), 
+  ]
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
   }
-  const last_name =  new charField("last_name", "姓", "姓を入力してください", true)
-  const first_name =  new charField("first_name", "名", "名を入力してください", true)
-  const last_name_kana =  new charField("last_name_kana", "セイ", "セイを入力してください", false)
-  const first_name_kana =  new charField("first_name_kana", "メイ", "メイを入力してください", false)
-  const login_id =  new charField("login_id", "ログインID", "ログインIDを入力してください", true)
-  const email =  new emailField("email", "メールアドレス", "メールアドレスを入力してください", true)
-  const password =  new passwordField("password", "パスワード", "パスワードを入力してください", true)
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <CharField field={last_name} control={form.control}/>
-        <CharField field={first_name} control={form.control}/>
-        <CharField field={last_name_kana} control={form.control}/>
-        <CharField field={first_name_kana} control={form.control}/>
-        <CharField field={login_id} control={form.control}/>
-        <EmailField field={email} control={form.control}/>
-        <PasswordField field={password} control={form.control}/>
-        <Button type="submit">送信</Button>
-      </form>
-    </Form>
-
+    <div className="flex justify-center items-center mt-6">
+      <GeneticForms schema={formSchema} fields={fields} onSubmit={onSubmit}/>
+    </div>
   );
 }

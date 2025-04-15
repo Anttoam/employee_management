@@ -17,7 +17,7 @@ export function CharField({field, control}: CharFieldProps) {
         <FormItem>
           <FormLabel>{ field.label }</FormLabel>
           <FormControl>
-            <Input placeholder={field.placeholder} {...inputField}/>
+            <Input placeholder={field.placeholder} type="text"  {...inputField}/>
           </FormControl>
           <FormMessage />
         </FormItem>
